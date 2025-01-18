@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'database_keuangan.dart';
 import 'model_uang_keluar.dart'; // Model UangKeluar
-import 'data_uang_keluar.dart';
-
+// import 'data_uang_keluar.dart';
+import 'main_page.dart';
 class EditUangKeluar extends StatefulWidget {
    int? id; // ID untuk mengidentifikasi data yang akan diedit
    String? keterangan;
@@ -46,20 +46,41 @@ class _EditUangKeluarState extends State<EditUangKeluar> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            TextFormField(
-              controller: keteranganController,
-              decoration: const InputDecoration(labelText: "Keterangan"),
-            ),
-            TextFormField(
-              controller: nominalController,
-              decoration: const InputDecoration(labelText: "Nominal"),
-              keyboardType: TextInputType.number,
-            ),
-            TextFormField(
-              controller: jenisController,
-              decoration: const InputDecoration(labelText: "Jenis (Keluar/Masuk)"),
-            ),
-            const SizedBox(height: 20),
+            TextField(
+                controller: keteranganController,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Keterangan',
+                ),
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+            TextField(
+                controller: nominalController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Nominal',
+                    prefixText: '\Rp.',
+                    suffixText: 'Rupiah',
+                    suffixStyle: TextStyle(color: Colors.green)),
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+            TextField(
+                controller:jenisController,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Jenis (Keluar/Masuk)',
+                ),
+              ),
+              const SizedBox(
+                height: 50,
+              ),
             ElevatedButton(
               onPressed: () async {
                 // Update data uang keluar di database
@@ -73,10 +94,10 @@ class _EditUangKeluarState extends State<EditUangKeluar> {
                 );
                 Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => DataUangKeluar()),
+                  MaterialPageRoute(builder: (context) => MainPage()),
                   (Route<dynamic> route) => false,
                   
-                ); // Kembali ke halaman sebelumnya
+                ); 
               },
               child: const Text("Simpan Perubahan"),
             ),
