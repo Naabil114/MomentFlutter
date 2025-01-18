@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'data_uang_keluar.dart';
 import 'database_keuangan.dart';
-import 'model_uang_keluar.dart'; // Import model UangKeluar
+import 'model_uang_keluar.dart';
+import 'main_page.dart';
 
 class InputUangKeluar extends StatefulWidget {
   const InputUangKeluar({Key? key}) : super(key: key);
@@ -13,7 +13,8 @@ class InputUangKeluar extends StatefulWidget {
 class _InputUangKeluarState extends State<InputUangKeluar> {
   final TextEditingController keteranganController = TextEditingController();
   final TextEditingController nominalController = TextEditingController();
-  final TextEditingController jenisController = TextEditingController(); // Optional, jika diperlukan
+  final TextEditingController jenisController =
+      TextEditingController(); // Optional, jika diperlukan
 
   @override
   Widget build(BuildContext context) {
@@ -26,21 +27,37 @@ class _InputUangKeluarState extends State<InputUangKeluar> {
         child: Center(
           child: Column(
             children: [
-              TextFormField(
+              TextField(
                 controller: keteranganController,
-                decoration: const InputDecoration(
-                  labelText: "Keterangan",
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Keterangan',
                 ),
               ),
-              TextFormField(
-                controller: nominalController,
-                decoration: const InputDecoration(labelText: "Nominal"),
-                keyboardType: TextInputType.number,
+              const SizedBox(
+                height: 25,
               ),
-              // Optional: Add drop-down or text input for "jenis" (keluar or masuk)
-              TextFormField(
-                controller: jenisController,
-                decoration: const InputDecoration(labelText: "Jenis (keluar/masuk)"),
+              TextField(
+                controller: nominalController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Nominal',
+                    prefixText: '\Rp.',
+                    suffixText: 'Rupiah',
+                    suffixStyle: TextStyle(color: Colors.green)),
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              TextField(
+                controller:jenisController,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Jenis (Keluar/Masuk)',
+                ),
               ),
               const SizedBox(
                 height: 50,
@@ -50,16 +67,18 @@ class _InputUangKeluarState extends State<InputUangKeluar> {
                   // Add uang keluar to the database
                   await DatabaseKeuanganHelper.instance.addUangKeluar(
                     UangKeluar(
-                      keterangan: keteranganController.text,
-                      nominal: nominalController.text,
-                      jenis: jenisController.text),
+                        keterangan: keteranganController.text,
+                        nominal: nominalController.text,
+                        jenis: jenisController.text),
                   );
 
                   // Navigate back to the home screen
                   Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => DataUangKeluar()),
-                    (Route<dynamic> route) => false,
+                    MaterialPageRoute(
+                      builder: (context) => MainPage(),
+                    ),
+                    (route) => false,
                   );
                 },
                 child: const Text("Simpan"),
