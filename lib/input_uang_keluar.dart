@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'database_keuangan.dart';
 import 'model_uang_keluar.dart';
+import 'package:fluttertoast/fluttertoast.dart'; // Import FlutterToast
 import 'main_page.dart';
 
 class InputUangKeluar extends StatefulWidget {
@@ -13,8 +14,7 @@ class InputUangKeluar extends StatefulWidget {
 class _InputUangKeluarState extends State<InputUangKeluar> {
   final TextEditingController keteranganController = TextEditingController();
   final TextEditingController nominalController = TextEditingController();
-  final TextEditingController jenisController =
-      TextEditingController(); // Optional, jika diperlukan
+  final TextEditingController jenisController = TextEditingController(); 
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class _InputUangKeluarState extends State<InputUangKeluar> {
                 height: 25,
               ),
               TextField(
-                controller:jenisController,
+                controller: jenisController,
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -72,7 +72,15 @@ class _InputUangKeluarState extends State<InputUangKeluar> {
                         jenis: jenisController.text),
                   );
 
-                  // Navigate back to the home screen
+                  Fluttertoast.showToast(
+                    msg: "Data berhasil disimpan!",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.TOP,
+                    backgroundColor: Colors.green,
+                    textColor: Colors.white,
+                    fontSize: 16.0,
+                  );
+
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
