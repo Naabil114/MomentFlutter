@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'database_keuangan.dart';
 import 'model_uang_keluar.dart'; // Model UangKeluar
-// import 'data_uang_keluar.dart';
+import 'package:fluttertoast/fluttertoast.dart'; // Import FlutterToast
 import 'main_page.dart';
+
 class EditUangKeluar extends StatefulWidget {
-   int? id; // ID untuk mengidentifikasi data yang akan diedit
-   String? keterangan;
-   String? nominal;
-   String? jenis;
+  int? id; 
+  String? keterangan;
+  String? nominal;
+  String? jenis;
 
   EditUangKeluar({
     Key? key,
@@ -47,40 +48,41 @@ class _EditUangKeluarState extends State<EditUangKeluar> {
         child: Column(
           children: [
             TextField(
-                controller: keteranganController,
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Keterangan',
-                ),
+              controller: keteranganController,
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Keterangan',
               ),
-              const SizedBox(
-                height: 25,
-              ),
+            ),
+            const SizedBox(
+              height: 25,
+            ),
             TextField(
-                controller: nominalController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Nominal',
-                    prefixText: '\Rp.',
-                    suffixText: 'Rupiah',
-                    suffixStyle: TextStyle(color: Colors.green)),
+              controller: nominalController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Nominal',
+                prefixText: '\Rp.',
+                suffixText: 'Rupiah',
+                suffixStyle: TextStyle(color: Colors.green),
               ),
-              const SizedBox(
-                height: 25,
-              ),
+            ),
+            const SizedBox(
+              height: 25,
+            ),
             TextField(
-                controller:jenisController,
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Jenis (Keluar/Masuk)',
-                ),
+              controller: jenisController,
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Jenis (Keluar/Masuk)',
               ),
-              const SizedBox(
-                height: 50,
-              ),
+            ),
+            const SizedBox(
+              height: 50,
+            ),
             ElevatedButton(
               onPressed: () async {
                 // Update data uang keluar di database
@@ -92,12 +94,22 @@ class _EditUangKeluarState extends State<EditUangKeluar> {
                     jenis: jenisController.text,
                   ),
                 );
+
+                Fluttertoast.showToast(
+                  msg: "Data berhasil diubah!",
+                  toastLength: Toast.LENGTH_LONG,
+                  gravity: ToastGravity.TOP,
+                  backgroundColor: Colors.green,
+                  textColor: Colors.white,
+                  fontSize: 16.0,
+                );
+
+                // Navigate to MainPage
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => MainPage()),
                   (Route<dynamic> route) => false,
-                  
-                ); 
+                );
               },
               child: const Text("Simpan Perubahan"),
             ),
